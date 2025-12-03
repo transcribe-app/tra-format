@@ -46,7 +46,7 @@ jobs:
       - name: Zip macOS build for upload
         run: |
           cd build/macos/Build/Products/Release/
-          ditto -ck --rsrc --arch x86_64 --arch arm64 "TRA Viewer.app" "TRA-Viewer.zip"
+          ditto -c -k --sequesterRsrc --keepParent "TRA Viewer.app" "TRA-Viewer.zip"
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -71,6 +71,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/macos/Build/Products/Release/TRA-Viewer.zip"
-          body: "{{ github.event.inputs.message }}"
+          body: "${{ github.event.inputs.message }}"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}
