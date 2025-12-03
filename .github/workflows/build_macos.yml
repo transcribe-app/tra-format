@@ -3,6 +3,10 @@ name: Build macOS release
 on:
   workflow_dispatch:
     inputs:
+      message:
+        description: 'Release message'
+        required: true
+        default: 'MacOs build'
       branch:
         description: 'Branch to deploy from'
         required: true
@@ -20,6 +24,7 @@ jobs:
       - name: Display inputs
         run: |
           echo "Building from branch: ${{ github.event.inputs.branch }}"
+          echo "Release message: ${{ github.event.inputs.message }}"
 
       - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2 # Action to install and set up Flutter
@@ -38,6 +43,10 @@ jobs:
         with:
           name: macOS-Release-Build
           path: build/macos/Build/Products/Release/TRA Viewer.app # Adjust path to your built .app file
+      - name: Zip macOS build for upload
+        run: |
+          cd build/macos/Build/Products/Release/
+          ditto -ck --rsrc --arch x86_64 --arch arm64 "TRA Viewer.app" "TRA-Viewer.zip"
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -61,6 +70,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/macos/Build/Products/Release/TRA Viewer.app"
+          artifacts: "build/macos/Build/Products/Release/TRA-Viewer.zip"
+          body: {{ github.event.inputs.message }}
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}
