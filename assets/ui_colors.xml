@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="tfg-blue">#1774FF</color>
+	<color name="tfg-gray">#8399AD</color>
+	<color name="tbg-gray">#F2F5F7</color>
+	<color name="tbg-gray-dark">#E5EBF0</color>
+	<color name="tbg-white">#FEFEFE</color>
+</resources>

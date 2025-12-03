@@ -1,0 +1,35 @@
+{
+	"app:WindowTitle": "TRA Viewer",
+
+	"lng:en": "English",
+	"lng:it": "Italian",
+
+	"opt:fzs:Default":"Default",
+	"opt:fzs:Large":"Large",
+	"opt:fzs:Small":"Small",
+	"opt:thm:Light Blue":"Light Blue",
+	"opt:thm:Dark Blue":"Dark Blue",
+	"opt:thm:Light Neutral":"Light Neutral",
+	"opt:thm:Dark Neutral":"Dark Neutral",
+	"opt:thm:Light Orange":"Light Orange",
+	"opt:thm:Dark Orange":"Dark Orange",
+	"opt:Application Logs": "Application Logs",
+	"opt:Interface Language": "Interface Language",
+	"opt:Viewer Font Size": "Viewer Font Size",
+	"opt:Color Theme": "Color Theme",
+
+	"bt:OK": "OK",
+	"bt:Open File": "Open File",
+	"bt:Close File": "Close File",
+	"Options": "Options",
+
+	"Warning": "Warning",
+	"Please select file": "Please select file",
+	"No file selected": "No file selected",
+	"Failed to load file": "Failed to load file",
+	"Supported formats: {}": "Supported formats: {}",
+
+	"Speaker: {}": "Speaker: {}",
+
+	"--":"--"
+}

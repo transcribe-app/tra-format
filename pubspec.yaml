@@ -1,0 +1,93 @@
+name: tra_viewer
+description: "TRA files player/viewer"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  logger: any
+  easy_logger: any
+  easy_localization: any
+  share_plus: any
+  file_picker: any
+  g_json: any
+  id3: any
+
+  archive: any
+  encrypt: any
+  uuid: any
+  args: any
+  path: any
+  path_provider: any
+  window_manager: any
+  shared_preferences: any
+  package_info_plus: any
+  device_info_plus: any
+
+  flutter_svg: any
+  flutter_layout_grid: any
+  shadcn_flutter: any
+
+  disco: any
+  flutter_solidart: any
+  flutter_hooks: any
+  solidart_hooks: any
+  go_router: any
+
+  audioplayers: any
+  super_editor: any
+
+dependency_overrides:
+  super_editor:
+    git:
+      url: https://github.com/superlistapp/super_editor
+      path: super_editor
+      ref: main
+  super_text_layout:
+    git:
+      url: https://github.com/superlistapp/super_editor
+      path: super_text_layout
+      ref: main
+  attributed_text:
+    git:
+      url: https://github.com/superlistapp/super_editor
+      path: attributed_text
+      ref: main
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: any
+  flutter_gen_runner: any
+
+flutter_gen:
+  parse_metadata: true
+  integrations:
+    image: true
+    flutter_svg: true
+  assets:
+    exclude:
+      - assets/i18n/**
+  colors:
+    inputs:
+      - assets/ui_colors.xml
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+  assets:
+    - assets/i18n/
+    - assets/icons/
