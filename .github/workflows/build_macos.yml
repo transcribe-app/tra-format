@@ -71,6 +71,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/macos/Build/Products/Release/TRA-Viewer.zip"
-          body: {{ github.event.inputs.message }}
+          body: "{{ github.event.inputs.message }}"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}
