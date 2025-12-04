@@ -1,4 +1,4 @@
-name: Build MacOS release
+name: Build Windows release
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       message:
         description: 'Release message'
         required: true
-        default: 'MacOs build'
+        default: 'Windows build'
       branch:
         description: 'Branch to deploy from'
         required: true
@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest # Use a macOS runner
+    runs-on: windows-latest # Use a Windows runner
 
     steps:
       - name: Checkout repository
@@ -33,18 +33,21 @@ jobs:
       - run: flutter --version
       - name: Install dependencies
         run: flutter pub get # Get Flutter package dependencies
+      - name: Enable Windows Desktop support
+        run: flutter config --enable-windows-desktop
       - name: Build application
-        run: flutter build macos --release # Build the macOS app in release mode
-
-      # - name: Upload build artifact
-      #   uses: actions/upload-artifact@v4 # Upload the built app as an artifact
-      #   with:
-      #     name: macOS-Release-Build
-      #     path: build/macos/Build/Products/Release/TRA Viewer.app # Adjust path to your built .app file
-      - name: Zip build for upload
+        run: flutter build windows --release # Build the macOS app in release mode
+      - name: Debug Build Output
         run: |
-          cd build/macos/Build/Products/Release/
-          ditto -c -k --sequesterRsrc --keepParent "TRA Viewer.app" "TRA-Viewer.zip"
+          echo "Contents of build/..."
+          ls build/windows/x64/runner/release
+
+      # Also: https://github.com/TheDoctor0/zip-release
+      - name: Create Release Zip
+        run: |
+          cd build/windows/x64/runner/Release
+          Compress-Archive -Path * -DestinationPath build/TRA-Viewer.zip -Force
+        shell: powershell
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -68,7 +71,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/macos/Build/Products/Release/TRA-Viewer.zip"
+          artifacts: "build/TRA-Viewer.zip"
           body: "${{ github.event.inputs.message }}"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}
