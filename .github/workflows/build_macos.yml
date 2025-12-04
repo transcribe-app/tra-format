@@ -18,13 +18,13 @@ jobs:
     runs-on: macos-latest # Use a macOS runner
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6 # Action to check out your repository code
-
       - name: Display inputs
         run: |
           echo "Building from branch: ${{ github.event.inputs.branch }}"
           echo "Release message: ${{ github.event.inputs.message }}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v6 # Action to check out your repository code
 
       - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2 # Action to install and set up Flutter

@@ -18,13 +18,13 @@ jobs:
     runs-on: windows-latest # Use a Windows runner
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6 # Action to check out your repository code
-
       - name: Display inputs
         run: |
           echo "Building from branch: ${{ github.event.inputs.branch }}"
           echo "Release message: ${{ github.event.inputs.message }}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v6 # Action to check out your repository code
 
       - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2 # Action to install and set up Flutter
@@ -51,6 +51,7 @@ jobs:
 
       - name: Extract version from pubspec.yaml
         id: extract_version
+        shell: bash
         run: |
           version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
           tagged_version="$version-build-${{ github.run_number }}"
