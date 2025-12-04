@@ -37,41 +37,28 @@ jobs:
         run: flutter config --enable-windows-desktop
       - name: Build application
         run: flutter build windows --release # Build the macOS app in release mode
-      - name: Debug Build Output
-        run: |
-          echo "Contents of build/..."
-          ls build/windows/x64/runner/release
+      # - name: Debug Build Output
+      #   run: |
+      #     echo "Contents of build"
+      #     ls build/windows/x64/runner/Release
 
-      # Also: https://github.com/TheDoctor0/zip-release
       - name: Create Release Zip
-        run: |
-          cd build/windows/x64/runner/Release
-          Compress-Archive -Path * -DestinationPath build/TRA-Viewer.zip -Force
-        shell: powershell
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: TRA-Viewer.zip
+          directory: build/windows/x64/runner/Release
 
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
           version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
-          echo "VERSION=$version" >> $GITHUB_ENV
-      - name: Check if Tag Exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
-          fi
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
+          tagged_version="$version-build-${{ github.run_number }}"
+          echo "VERSION=$tagged_version" >> $GITHUB_ENV
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/TRA-Viewer.zip"
+          artifacts: "build/windows/x64/runner/Release/TRA-Viewer.zip"
           body: "${{ github.event.inputs.message }}"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}

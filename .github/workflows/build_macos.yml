@@ -35,6 +35,10 @@ jobs:
         run: flutter pub get # Get Flutter package dependencies
       - name: Build application
         run: flutter build macos --release # Build the macOS app in release mode
+      # - name: Debug Build Output
+      #   run: |
+      #     echo "Contents of build"
+      #     ls build/macos/Build/Products/Release/
 
       # - name: Upload build artifact
       #   uses: actions/upload-artifact@v4 # Upload the built app as an artifact
@@ -50,21 +54,8 @@ jobs:
         id: extract_version
         run: |
           version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
-          echo "VERSION=$version" >> $GITHUB_ENV
-      - name: Check if Tag Exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
-          fi
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
+          tagged_version="$version-build-${{ github.run_number }}"
+          echo "VERSION=$tagged_version" >> $GITHUB_ENV
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
