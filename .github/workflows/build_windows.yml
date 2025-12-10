@@ -12,11 +12,13 @@ on:
         required: true
         default: 'main'
 
+env:
+  ROOT: "${{ github.workspace }}"
 
 jobs:
   build:
     runs-on: windows-latest # Use a Windows runner
-
+    timeout-minutes: 30
     steps:
       - name: Display inputs
         run: |
@@ -35,19 +37,29 @@ jobs:
         run: flutter pub get # Get Flutter package dependencies
       - name: Enable Windows Desktop support
         run: flutter config --enable-windows-desktop
+      
       - name: Build application
-        run: flutter build windows --release # Build the macOS app in release mode
-      # - name: Debug Build Output
-      #   run: |
-      #     echo "Contents of build"
-      #     ls build/windows/x64/runner/Release
+        env:
+          RUNNER_DIR: ${{ env.ROOT }}/build/windows/x64/runner
+          RELEASE_DIR: ${{ env.ROOT }}/build/windows/x64/runner/Release
+        shell: bash
+        run: |
+          flutter build windows --release
+
+          # Copy needed runtime DLLs
+          cp "${WINDIR}/system32/msvcp140.dll" "$RELEASE_DIR"
+          cp "${WINDIR}/system32/vcruntime140.dll" "$RELEASE_DIR"
+          cp "${WINDIR}/system32/vcruntime140_1.dll" "$RELEASE_DIR"
+          echo "Contents of build"
+          ls "$RELEASE_DIR"
+          # ??? ls "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\"
 
       - name: Create Release Zip
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: TRA-Viewer.zip
-          directory: build/windows/x64/runner/Release
+          directory: ${{ env.ROOT }}/build/windows/x64/runner/Release
 
       - name: Extract version from pubspec.yaml
         id: extract_version

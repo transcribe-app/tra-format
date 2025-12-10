@@ -62,6 +62,7 @@ dependency_overrides:
       ref: main
 
 dev_dependencies:
+  test: any
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
