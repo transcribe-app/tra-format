@@ -47,11 +47,11 @@ jobs:
       - name: Zip build for upload
         run: |
           cd build/macos/Build/Products/Release/
-          ditto -c -k --sequesterRsrc --keepParent "TRA Viewer.app" "TRA-Viewer.zip"
+          ditto -c -k --sequesterRsrc --keepParent "TRA Viewer.app" "TRA-Viewer-macos.zip"
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/macos/Build/Products/Release/TRA-Viewer.zip"
+          artifacts: "build/macos/Build/Products/Release/TRA-Viewer-macos.zip"
           body: "${{ github.event.inputs.message }}"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}

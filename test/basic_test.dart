@@ -6,7 +6,6 @@ void main() {
     test('App Config initialization', () {
       final appState = AppState();
       expect(appState.uiTheme, 0);
-      print("appState init ok");
     });
   });
 }

@@ -34,9 +34,8 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: flutter pub get
+      - run: flutter config --enable-windows-desktop
       - run: flutter --version
-      - name: Enable Windows Desktop support
-        run: flutter config --enable-windows-desktop
       
       - name: Build application
         env:
@@ -50,9 +49,8 @@ jobs:
           cp "${WINDIR}/system32/msvcp140.dll" "$RELEASE_DIR"
           cp "${WINDIR}/system32/vcruntime140.dll" "$RELEASE_DIR"
           cp "${WINDIR}/system32/vcruntime140_1.dll" "$RELEASE_DIR"
-          echo "Contents of build"
-          ls "$RELEASE_DIR"
-          # ??? ls "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\"
+          # echo "Contents of build"
+          # ls "$RELEASE_DIR"
       - name: Run Tests
         run: flutter test
 
@@ -67,12 +65,12 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: TRA-Viewer.zip
+          filename: TRA-Viewer-win.zip
           directory: ${{ env.ROOT }}/build/windows/x64/runner/Release
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/windows/x64/runner/Release/TRA-Viewer.zip"
+          artifacts: "build/windows/x64/runner/Release/TRA-Viewer-win.zip"
           body: "${{ github.event.inputs.message }}"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.BUILDS_TOKEN }}
