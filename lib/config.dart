@@ -50,6 +50,7 @@ class AppState {
     var uiViewerFontMode = 0;// supportedFontModes
     var uiTheme = 0;// supportedThemes
     TraData? activeTra;
+    var activeTraAutoplay = false;
 
     var globalAnimationEndExpectancy = 0;
 }

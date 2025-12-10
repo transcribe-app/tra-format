@@ -132,6 +132,11 @@ class AppLogger {
 
 }
 
+void elog(dynamic message, dynamic error) {
+  clog(message);
+  AppLogger.reportError(error);
+}
+
 void clog(dynamic value, {String tag = '', bool isWarning = false}) {
   if(tag.isEmpty){
     tag = "App";

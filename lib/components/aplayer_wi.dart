@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:flutter/material.dart' as material;
 import 'package:audioplayers/audioplayers.dart';
+import '/config.dart';
+import '/utils/app_log.dart';
 import '/utils/file_tra.dart';
 import '/utils/sugar.dart' as sugar;
 
@@ -59,7 +61,6 @@ class _APlayerWiState extends material.State<APlayerWi> {
           }),
         );
     _initStreams();
-    doPlay();
   }
 
   @override
@@ -86,6 +87,11 @@ class _APlayerWiState extends material.State<APlayerWi> {
     final uiTheme = Theme.of(context);
     final uiFgColor = uiTheme.colorScheme.foreground;
     material.IconButton? multi_button = null;
+    final appState = vAppStateProvider.of(context);
+    if(appState.activeTraAutoplay){
+      appState.activeTraAutoplay = false;
+      doPlay();
+    }
     if(!_isPlaying){
       multi_button = material.IconButton(
         key: const Key('play_button'),
@@ -193,14 +199,18 @@ class _APlayerWiState extends material.State<APlayerWi> {
   }
 
   Future<void> doPlay() async {
-    if(_playerState != PlayerState.paused){
-      if(widget.data.audioPath.isNotEmpty){
-        await widget.player.play(DeviceFileSource(widget.data.audioPath));
+    try{
+      if(_playerState != PlayerState.paused){
+        if(widget.data.audioPath.isNotEmpty){
+          await widget.player.play(DeviceFileSource(widget.data.audioPath));
+        }
+      }else{
+        await player.resume();
       }
-    }else{
-      await player.resume();
+      setState(() => _playerState = PlayerState.playing);
+    }catch(err){
+      elog("[EXC] APlayerWi: doPlay", err);
     }
-    setState(() => _playerState = PlayerState.playing);
   }
 
   Future<void> doPause() async {

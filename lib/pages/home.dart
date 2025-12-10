@@ -44,6 +44,7 @@ class TraOrPickWi extends HookWidget {
               return;
             }
             appState.activeTra = data;
+            appState.activeTraAutoplay = true;
             bumpAppState(appState, true);
           });
           return;
@@ -56,6 +57,7 @@ class TraOrPickWi extends HookWidget {
               return;
             }
             appState.activeTra = data;
+            appState.activeTraAutoplay = true;
             bumpAppState(appState, true);
           });
           return;
@@ -71,6 +73,7 @@ class TraOrPickWi extends HookWidget {
   static Future<void> doCloseFile(BuildContext context) async {
     final appState = vAppStateProvider.of(context);
     appState.activeTra = null;
+    appState.activeTraAutoplay = false;
     bumpAppState(appState, true);
   }
 

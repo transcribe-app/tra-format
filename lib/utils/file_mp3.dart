@@ -120,6 +120,11 @@ void parseMp3WithCallback(String fileName, Uint8List traBytes, TraParser onCompl
       tra_status = fillTraFromLRC(traData, mp3_header, lrc_tex);
     }
   }
+  if(tra_status != TraStatus.ok){
+    // Creating EMPTY text, just to play MP3
+    clog("- TRA: parseMp3WithCallback: failed to detect LRC");
+    tra_status = fillTraFromLRC(traData, mp3_header, "[00:00]<Lyrics not found>");
+  }
   Future.delayed(Duration(seconds: 1), (){
       // onComplete(TraStatus.ok,traData);
       onComplete(tra_status,traData);

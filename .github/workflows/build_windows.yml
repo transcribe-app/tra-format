@@ -17,7 +17,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest # Use a Windows runner
+    runs-on: windows-latest
     timeout-minutes: 30
     steps:
       - name: Display inputs
@@ -26,15 +26,15 @@ jobs:
           echo "Release message: ${{ github.event.inputs.message }}"
 
       - name: Checkout repository
-        uses: actions/checkout@v6 # Action to check out your repository code
+        uses: actions/checkout@v6
 
       - name: Set up Flutter SDK
-        uses: subosito/flutter-action@v2 # Action to install and set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: stable # Specify the Flutter channel (e.g., stable, beta)
-      - run: flutter --version
+          channel: stable
       - name: Install dependencies
-        run: flutter pub get # Get Flutter package dependencies
+        run: flutter pub get
+      - run: flutter --version
       - name: Enable Windows Desktop support
         run: flutter config --enable-windows-desktop
       
@@ -53,13 +53,8 @@ jobs:
           echo "Contents of build"
           ls "$RELEASE_DIR"
           # ??? ls "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\"
-
-      - name: Create Release Zip
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: TRA-Viewer.zip
-          directory: ${{ env.ROOT }}/build/windows/x64/runner/Release
+      - name: Run Tests
+        run: flutter test
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -68,6 +63,12 @@ jobs:
           version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
           tagged_version="$version-build-${{ github.run_number }}"
           echo "VERSION=$tagged_version" >> $GITHUB_ENV
+      - name: Create Release Zip
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: TRA-Viewer.zip
+          directory: ${{ env.ROOT }}/build/windows/x64/runner/Release
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
