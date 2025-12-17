@@ -1,6 +1,7 @@
 # TRA format
 
 This is repository for official TRA format specification and basic cross-platform viewer/player.
+The official cross-platform viewer/player allows you to play back TRA files with synchronized highlighting.
 Maintained by the [Transcribe App Team](https://transcribe.com/)
 
 ---

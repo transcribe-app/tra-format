@@ -7,15 +7,15 @@ permalink: /
 <div class="hero-section" style="text-align: center; padding: 50px 20px; background-color: #f6f8fa;">
   <h1 style="font-size: 2.5em; margin-bottom: 10px;">TRA Format</h1>
   <p style="font-size: 1.2em; color: #586069; max-width: 600px; margin: 0 auto 30px;">
-    The official specification, viewer, and player for the <code>.tra</code> transcription file format.
+    The open standard for synchronized audio transcriptions. The official specification, viewer, and player for the <code>.tra</code> transcription file format.
   </p>
 
   <div class="button-group">
     <a href="https://github.com/transcribe-app/tra-format" class="btn btn-primary" style="background-color: #2ea44f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-right: 10px;">
       View on GitHub
     </a>
-    <a href="https://github.com/transcribe-app/tra-format/releases" class="btn btn-secondary" style="background-color: #f3f4f6; color: #24292e; border: 1px solid #d1d5da; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
-      Releases
+    <a href="https://github.com/transcribe-app/tra-format/releases" style="background-color: #2ea44f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-right: 10px; display: inline-block;">
+       Download TRA Viewer
     </a>
   </div>
 </div>
@@ -34,9 +34,19 @@ permalink: /
   </ul>
 
   <h3>For Developers</h3>
+  
   <p>
-    This repository provides a reference implementation written in <strong>Flutter</strong>. It includes example of a viewer/player widget, making it easier to integrate <code>.tra</code> file support into your own applications or to convert data for custom workflows.
+    This repository provides a reference implementation written in <strong>Flutter</strong>.
+    It includes example of a viewer/player widget, making it easier to integrate <code>.tra</code> file support into your own applications or to convert data for custom workflows.
   </p>
+
+  <div style="background-color: #f6f8fa; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; margin-bottom: 20px;">
+    <strong>Supported Formats:</strong>
+    <ul>
+      <li><strong>.TRA files:</strong> Full functionality with word/sentence alignment.</li>
+      <li><strong>.MP3 files:</strong> Supports standard audio plus embedded lyrics (SYLT, USLT with LRC formatting, and Lyrics3v2).</li>
+    </ul>
+  </div>
 
   <div class="code-preview" style="background: #f6f8fa; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; margin-top: 20px;">
     <p style="margin: 0; font-family: monospace; color: #6a737d;">
@@ -46,6 +56,19 @@ permalink: /
   </div>
 
 </div>
+
+---
+
+## What is the TRA Format?
+
+The **TRA format** is designed to store text transcriptions tightly synchronized with an audio stream. It is built as an extension of the MIME standard (RFC 822), allowing it to bundle metadata, structured transcription data (JSON), and audio files into a single, portable container.
+
+### Key Features
+
+*   **Precise Synchronization:** Supports both **word-level** and **character-level** alignment for accurate playback.
+*   **Streaming Ready:** Designed to be split into chunks, allowing real-time streaming of audio and text with minimal overhead.
+*   **Universal Compatibility:** Built on the Multi-part MIME structure. Audio and text can be extracted using standard tools without specialized software.
+*   **Rich Metadata:** Supports multiple speakers, language codes, and custom headers.
 
 <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #eaecef; color: #586069; font-size: 0.9em;">
   <p>Maintained by the <a href="https://transcribe.com/" style="color: #0366d6; text-decoration: none;">Transcribe App Team</a>.</p>
